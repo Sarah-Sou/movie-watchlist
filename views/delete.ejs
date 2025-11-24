@@ -1,0 +1,18 @@
+<%- include("partials/header") %>
+
+<h1 class="mb-4 pastel-title" style="color:#ff9ebb;">Delete Movie</h1>
+
+<div class="card pastel-card p-4 shadow-sm" style="background:#fff0f6;">
+
+  <p class="pastel-text">Are you sure you want to delete:</p>
+
+  <h3 class="movie-title"><%= movie.title %></h3>
+
+  <form action="/movies/<%= movie._id %>?_method=DELETE" method="POST" class="mt-4">
+      <button class="btn btn-danger pastel-delete-btn">Yes, Delete</button>
+      <a href="/movies" class="btn btn-secondary pastel-btn">Cancel</a>
+  </form>
+
+</div>
+
+<%- include("partials/footer") %>
