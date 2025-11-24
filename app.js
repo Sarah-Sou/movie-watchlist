@@ -3,10 +3,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const path = require("path");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
 const app = express();
 
-// View engine
 app.set("view engine", "ejs");
 
 // Middleware
@@ -14,22 +15,36 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
-// Homepage redirect (IMPORTANT for Render)
+// Sessions
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      collectionName: "sessions",
+    }),
+  })
+);
+
+// Homepage → redirect
 app.get("/", (req, res) => {
-    res.redirect("/movies");
+  res.redirect("/movies");
 });
 
 // Routes
 const movieRouter = require("./routes/movieRouter");
-app.use("/", movieRouter);
+app.use("/movies", movieRouter);
 
-// MongoDB Connection
+// MongoDB connect
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB Error:", err));
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 
-// Start Server
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
