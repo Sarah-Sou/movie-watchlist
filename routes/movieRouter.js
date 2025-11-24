@@ -2,37 +2,34 @@ const express = require("express");
 const router = express.Router();
 const Movie = require("../models/movie");
 
-// List movies
-router.get("/", async (req, res) => {
-  const movies = await Movie.find().sort({ title: 1 });
+function requireLogin(req, res, next) {
+  if (!req.session.userId) return res.redirect("/auth/login");
+  next();
+}
+
+router.get("/movies", requireLogin, async (req, res) => {
+  const movies = await Movie.find({ userId: req.session.userId }).sort({ title: 1 });
   res.render("list", { movies });
 });
 
-// New movie form
-router.get("/new", (req, res) => {
-  res.render("new");
-});
+router.get("/movies/new", requireLogin, (req, res) => res.render("new"));
 
-// Create movie
-router.post("/", async (req, res) => {
-  await Movie.create(req.body);
+router.post("/movies", requireLogin, async (req, res) => {
+  await Movie.create({ ...req.body, userId: req.session.userId });
   res.redirect("/movies");
 });
 
-// Edit movie form
-router.get("/:id/edit", async (req, res) => {
+router.get("/movies/:id/edit", requireLogin, async (req, res) => {
   const movie = await Movie.findById(req.params.id);
   res.render("edit", { movie });
 });
 
-// Update movie
-router.put("/:id", async (req, res) => {
+router.put("/movies/:id", requireLogin, async (req, res) => {
   await Movie.findByIdAndUpdate(req.params.id, req.body);
   res.redirect("/movies");
 });
 
-// Delete movie
-router.delete("/:id", async (req, res) => {
+router.delete("/movies/:id", requireLogin, async (req, res) => {
   await Movie.findByIdAndDelete(req.params.id);
   res.redirect("/movies");
 });

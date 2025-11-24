@@ -1,91 +1,23 @@
-Project Overview
+# Movie Watchlist
 
-This project is a Movie Watchlist web application built with Node.js, Express, MongoDB, and EJS. It allows users to register, log in, and manage their own list of movies. Users can add movies, view them, update them, and delete them. Each user only sees the movies they created.
+This is a Movie Watchlist web application where users can:
+- Add new movies with title, genre, year, and status.
+- Edit or delete movies.
+- Mark movies as Watching, Watched, or Want to Watch.
+- Register and log in for secure access.
 
-Features
+### Tech Stack
+- Node.js, Express
+- MongoDB Atlas
+- EJS templating
+- Bootstrap 5
+- User authentication with sessions
 
-Authentication
+### Deployment
+Deployed on Render: https://movie-watchlist-jzxw.onrender.com
 
-User registration
-
-Login and logout
-
-Password hashing
-
-Sessions to protect routes
-
-Movie CRUD
-
-Add a movie (title, genre, year, status)
-
-View all movies for the logged-in user
-
-Edit movie details
-
-Delete movies
-
-Design
-
-Pastel theme with simple CSS
-
-Layout uses Bootstrap
-
-Responsive and clean interface
-
-How to Run the App
-
-Install dependencies
-
-npm install
-
-
-Add your MongoDB connection string inside a .env file
-
-MONGO_URI=your_connection_string_here
-
-
-Start the server
-
-node app.js
-
-
-Visit the app in the browser
-
-http://localhost:3000
-
-Routes
-
-Auth Routes
-
-/register
-
-/login
-
-/logout
-
-Movie Routes
-
-/movies
-
-/movies/new
-
-/movies/:id/edit
-
-Database
-
-Movies and users are stored in MongoDB Atlas.
-Each movie document contains:
-
-title
-
-genre
-
-year
-
-status
-
-user (owner of the movie)
-
-Author
-Sarah Soueidan
-Movie Watchlist — CRUD + Authentication
+### How to Run Locally
+1. Clone the repo: `git clone https://github.com/Sarah-Sou/movie-watchlist.git`
+2. Install dependencies: `npm install`
+3. Set `.env` with your MongoDB URI and session secret.
+4. Run locally: `node app.js` or `npm start`
