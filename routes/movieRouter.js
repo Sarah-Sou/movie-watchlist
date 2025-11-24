@@ -15,8 +15,7 @@ router.get("/movies", requireLogin, async (req, res) => {
 router.get("/movies/new", requireLogin, (req, res) => res.render("new"));
 
 router.post("/movies", requireLogin, async (req, res) => {
-  const movie = new Movie({ ...req.body, userId: req.session.userId });
-  await movie.save();
+  await Movie.create({ ...req.body, userId: req.session.userId });
   res.redirect("/movies");
 });
 

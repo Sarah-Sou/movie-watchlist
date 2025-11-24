@@ -16,14 +16,15 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) return res.redirect("/login");
-  const valid = await user.checkPassword(password);
+  const valid = await user.comparePassword(password);
   if (!valid) return res.redirect("/login");
   req.session.userId = user._id;
   res.redirect("/movies");
 });
 
 router.post("/logout", (req, res) => {
-  req.session.destroy(() => res.redirect("/login"));
+  req.session.destroy();
+  res.redirect("/login");
 });
 
 module.exports = router;
