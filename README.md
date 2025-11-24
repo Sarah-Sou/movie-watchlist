@@ -1,60 +1,91 @@
 Project Overview
 
-This is a Movie Watchlist web application built with Node.js, Express, MongoDB, and EJS. Users can create an account, log in, and manage their own list of movies. The app supports adding movies, viewing them, editing them, and deleting them. Each user only sees their own movies.
+This project is a Movie Watchlist web application built with Node.js, Express, MongoDB, and EJS. It allows users to register, log in, and manage their own list of movies. Users can add movies, view them, update them, and delete them. Each user only sees the movies they created.
 
 Features
 
 Authentication
 
-Register
+User registration
 
-Login
-
-Logout
+Login and logout
 
 Password hashing
 
-Session protection
+Sessions to protect routes
 
-Movie Functions (CRUD)
+Movie CRUD
 
-Add a movie
+Add a movie (title, genre, year, status)
 
-View all movies
+View all movies for the logged-in user
 
-Edit movies
+Edit movie details
 
 Delete movies
 
-Styling
+Design
 
-Simple pastel theme using Bootstrap and custom CSS
+Pastel theme with simple CSS
 
-How to Run
+Layout uses Bootstrap
 
-Install packages:
+Responsive and clean interface
+
+How to Run the App
+
+Install dependencies
 
 npm install
 
 
-Add your MongoDB connection string in .env
+Add your MongoDB connection string inside a .env file
 
-MONGO_URI=your_link_here
+MONGO_URI=your_connection_string_here
 
 
-Start the server:
+Start the server
 
 node app.js
 
 
-Open:
+Visit the app in the browser
 
 http://localhost:3000
 
 Routes
 
-Auth: /register, /login, /logout
-Movies: /movies, /movies/new, /movies/:id/edit
+Auth Routes
+
+/register
+
+/login
+
+/logout
+
+Movie Routes
+
+/movies
+
+/movies/new
+
+/movies/:id/edit
+
+Database
+
+Movies and users are stored in MongoDB Atlas.
+Each movie document contains:
+
+title
+
+genre
+
+year
+
+status
+
+user (owner of the movie)
 
 Author
 Sarah Soueidan
+Movie Watchlist — CRUD + Authentication
