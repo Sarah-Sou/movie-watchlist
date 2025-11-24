@@ -26,6 +26,7 @@ app.use(
   })
 );
 
+// Routes
 const authRouter = require("./routes/authRouter");
 const movieRouter = require("./routes/movieRouter");
 
@@ -34,6 +35,7 @@ app.use("/", movieRouter);
 
 app.get("/", (req, res) => res.redirect("/movies"));
 
+// MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to MongoDB"))
