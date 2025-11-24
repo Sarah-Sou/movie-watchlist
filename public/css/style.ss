@@ -1,35 +1,6 @@
-body {
-  background-color: #fef6f0;
-  font-family: "Poppins", sans-serif;
-}
-
-.navbar {
-  background-color: #ffe6f0;
-}
-
-.nav-link {
-  color: #8c5e7a !important;
-}
-
-.page-title {
-  color: #8c5e7a;
-  margin-bottom: 1rem;
-}
-
-.card {
-  background-color: #fff0f6;
-  border: none;
-}
-
-.btn-pastel {
-  background-color: #8c5e7a;
-  color: #fff;
-  border-radius: 8px;
-}
-
-.badge {
-  background-color: #d9c5ff;
-  color: #5b3fa3;
-  padding: 6px 12px;
-  border-radius: 12px;
-}
+body.pastel-body { background:#f8f4f9; font-family:sans-serif; }
+.btn-pastel { background:#c4a7e7; color:#fff; padding:0.5rem 1rem; border-radius:8px; text-decoration:none; }
+.list-group-item { background:#fff; margin-bottom:0.5rem; border-radius:8px; }
+.badge { background:#d9c2ff; padding:0.3rem 0.5rem; border-radius:5px; color:#5b3fa3; }
+.btn-edit { background:#ffd166; color:#000; padding:0.3rem 0.6rem; border-radius:5px; text-decoration:none; }
+.btn-delete { background:#ef476f; color:#fff; padding:0.3rem 0.6rem; border-radius:5px; }

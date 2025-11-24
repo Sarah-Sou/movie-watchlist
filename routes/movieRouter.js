@@ -3,7 +3,7 @@ const router = express.Router();
 const Movie = require("../models/movie");
 
 function requireLogin(req, res, next) {
-  if (!req.session.userId) return res.redirect("/auth/login");
+  if (!req.session.userId) return res.redirect("/login");
   next();
 }
 
@@ -15,7 +15,8 @@ router.get("/movies", requireLogin, async (req, res) => {
 router.get("/movies/new", requireLogin, (req, res) => res.render("new"));
 
 router.post("/movies", requireLogin, async (req, res) => {
-  await Movie.create({ ...req.body, userId: req.session.userId });
+  const movie = new Movie({ ...req.body, userId: req.session.userId });
+  await movie.save();
   res.redirect("/movies");
 });
 
