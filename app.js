@@ -6,40 +6,40 @@ const path = require("path");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
+const authRouter = require("./routes/authRouter");
+const movieRouter = require("./routes/movieRouter");
+const requireLogin = require("./middleware/requireLogin");
+
 const app = express();
 
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || "defaultsecret",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URI,
-      collectionName: "sessions",
-    }),
-    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   })
 );
 
-// Routes
-const authRouter = require("./routes/authRouter");
-const movieRouter = require("./routes/movieRouter");
+mongoose.connect(process.env.MONGO_URI);
+
+app.get("/", (req, res) => {
+  res.render("home");
+});
 
 app.use("/", authRouter);
-app.use("/", movieRouter);
+app.use("/movies", requireLogin, movieRouter);
 
-app.get("/", (req, res) => res.redirect("/movies"));
+app.use((req, res) => {
+  res.status(404).send("Page Not Found");
+});
 
-// MongoDB Connection
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error(err));
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Running on http://localhost:${port}`));

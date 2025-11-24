@@ -1,11 +1,21 @@
-<form action="/movies" method="POST">
-  <input type="text" name="title" required>
-  <input type="text" name="genre" required>
-  <input type="number" name="year" required>
-  <select name="status">
-    <option value="Watching">Watching</option>
-    <option value="Watched">Watched</option>
-    <option value="Want to Watch">Want to Watch</option>
-  </select>
-  <button>Add Movie</button>
-</form>
+<%- include("partials/header") %>
+
+<div class="container">
+  <h1>Add Movie</h1>
+
+  <form action="/movies" method="POST">
+    <input type="text" name="title" placeholder="Title" required>
+    <input type="text" name="genre" placeholder="Genre" required>
+    <input type="number" name="year" placeholder="Year" required>
+
+    <select name="status">
+      <option>Watching</option>
+      <option>Completed</option>
+      <option>Plan to Watch</option>
+    </select>
+
+    <button class="btn">Add Movie</button>
+  </form>
+</div>
+
+<%- include("partials/footer") %>
