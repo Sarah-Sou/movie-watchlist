@@ -2,57 +2,38 @@ const express = require("express");
 const router = express.Router();
 const Movie = require("../models/movie");
 
-function requireLogin(req, res, next) {
-  if (!req.session.userId) return res.redirect("/login");
-  next();
-}
-
-router.get("/movies", requireLogin, async (req, res) => {
-  const movies = await Movie.find({ user: req.session.userId }).sort({ title: 1 });
+// List movies
+router.get("/", async (req, res) => {
+  const movies = await Movie.find().sort({ title: 1 });
   res.render("list", { movies });
 });
 
-router.get("/movies/new", requireLogin, (req, res) => {
+// New movie form
+router.get("/new", (req, res) => {
   res.render("new");
 });
 
-router.post("/movies", requireLogin, async (req, res) => {
-  await Movie.create({
-    title: req.body.title,
-    genre: req.body.genre,
-    year: req.body.year,
-    status: req.body.status,
-    user: req.session.userId,
-  });
-
+// Create movie
+router.post("/", async (req, res) => {
+  await Movie.create(req.body);
   res.redirect("/movies");
 });
 
-router.get("/movies/:id/edit", requireLogin, async (req, res) => {
-  const movie = await Movie.findOne({
-    _id: req.params.id,
-    user: req.session.userId,
-  });
-
-  if (!movie) return res.redirect("/movies");
-
+// Edit movie form
+router.get("/:id/edit", async (req, res) => {
+  const movie = await Movie.findById(req.params.id);
   res.render("edit", { movie });
 });
 
-router.put("/movies/:id", requireLogin, async (req, res) => {
-  await Movie.findOneAndUpdate(
-    { _id: req.params.id, user: req.session.userId },
-    req.body
-  );
+// Update movie
+router.put("/:id", async (req, res) => {
+  await Movie.findByIdAndUpdate(req.params.id, req.body);
   res.redirect("/movies");
 });
 
-router.delete("/movies/:id", requireLogin, async (req, res) => {
-  await Movie.findOneAndDelete({
-    _id: req.params.id,
-    user: req.session.userId,
-  });
-
+// Delete movie
+router.delete("/:id", async (req, res) => {
+  await Movie.findByIdAndDelete(req.params.id);
   res.redirect("/movies");
 });
 
